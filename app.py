@@ -5,6 +5,7 @@ import json
 # Flask 애플리케이션 초기화
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     image_url = None
@@ -25,8 +26,9 @@ def index():
         }
 
         # 카카오 이미지 생성 API 호출
-        response = requests.post('https://api.kakaobrain.com/v2/inference/karlo/t2i', headers=headers, json=data)
-        
+        response = requests.post(
+            'https://api.kakaobrain.com/v2/inference/karlo/t2i', headers=headers, json=data)
+
         # 응답 확인 및 이미지 URL 추출
         if response.status_code == 200:
             print("Image generation successful.")
@@ -36,11 +38,13 @@ def index():
             else:
                 print("No image found in response.")
         else:
-            print(f"Image generation failed with status code: {response.status_code}")
+            print(
+                f"Image generation failed with status code: {response.status_code}")
 
     # 결과를 포함하여 템플릿 렌더링
     return render_template('index.html', image_url=image_url)
 
+
 # 애플리케이션 실행
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
